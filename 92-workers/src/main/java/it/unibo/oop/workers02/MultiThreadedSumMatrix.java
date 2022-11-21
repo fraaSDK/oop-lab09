@@ -8,6 +8,9 @@ public final class MultiThreadedSumMatrix implements SumMatrix {
 
     private final int threadNumber;
 
+    /**
+     * @param threadNumber the number of threads to create.
+     */
     public MultiThreadedSumMatrix(final int threadNumber) {
         this.threadNumber = threadNumber;
     }
@@ -29,7 +32,7 @@ public final class MultiThreadedSumMatrix implements SumMatrix {
         }
 
         // Waiting for every worker to end and returning the final sum.
-        long sum = 0;
+        double sum = 0;
         for (final Worker worker : workers) {
             try {
                 worker.join();
@@ -47,9 +50,14 @@ public final class MultiThreadedSumMatrix implements SumMatrix {
         private final List<Double> elementsList;
         private final int start;
         private final int elementNumber;
-        private long result;
+        private double result;
 
-        public Worker(final List<Double> elementsList, final int start, final int elementNumber) {
+        /**
+         * @param elementsList the list containing the elements to sum.
+         * @param start the starting position for this worker.
+         * @param elementNumber the no. of elements to sum up for this worker.
+         */
+        private Worker(final List<Double> elementsList, final int start, final int elementNumber) {
             super();
             this.elementsList = elementsList;
             this.start = start;
@@ -59,17 +67,21 @@ public final class MultiThreadedSumMatrix implements SumMatrix {
         @Override
         public void run() {
             System.out.println("Working FROM: " + this.start + " TO: " + (this.start + this.elementNumber - 1));
-            for (int i = this.start; i < elementsList.size(); i++) {
+            for (int i = this.start; i < elementsList.size() && i < start + elementNumber; i++) {
                 this.result += this.elementsList.get(i);
             }
         }
 
-        public long getResult() {
+        /**
+         * @return the sum of every element.
+         */
+        public double getResult() {
             return this.result;
         }
 
     }
 
+    // Converts a 2D array of type double into a plain list.
     private List<Double> matrixToList(final double[][] matrix) {
         final List<Double> result = new ArrayList<>();
         for (int i = 0; i < matrix.length; i++) {
