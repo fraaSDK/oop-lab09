@@ -23,7 +23,11 @@ public final class ConcurrentGUI extends JFrame {
     private final JButton down = new JButton("Down");
     private final JButton stop = new JButton("Stop");
 
+    /**
+     * A simple concurrent GUI.
+     */
     public ConcurrentGUI() {
+        // CPD-OFF: disabled because reactivegui03 is based on this exercise.
         super();
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         this.setSize((int) (screen.getWidth() * WIDTH_PERCENT), (int) (screen.getHeight() * HEIGHT_PERCENT));
@@ -66,7 +70,7 @@ public final class ConcurrentGUI extends JFrame {
                     countOperation();
                     Thread.sleep(100);
                 } catch (final InvocationTargetException | InterruptedException e) {
-                    e.printStackTrace();
+                    e.printStackTrace();    // NOPMD: allowed for exercise.
                 }
             }
         }
@@ -92,4 +96,5 @@ public final class ConcurrentGUI extends JFrame {
         }
 
     }
+// CPD-ON
 }

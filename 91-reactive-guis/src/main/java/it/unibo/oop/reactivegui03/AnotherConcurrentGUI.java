@@ -25,6 +25,9 @@ public final class AnotherConcurrentGUI extends JFrame {
     private final JButton down = new JButton("Down");
     private final JButton stop = new JButton("Stop");
 
+    /**
+     * Another simple concurrent GUI.
+     */
     public AnotherConcurrentGUI() {
         super();
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -69,14 +72,14 @@ public final class AnotherConcurrentGUI extends JFrame {
                     // Executes the body after 10 seconds.
                     CompletableFuture.delayedExecutor(10, TimeUnit.SECONDS).execute(() -> {
                         stopCounting();
-                        
+
                         // Updating the GUI.
                         try {
                             SwingUtilities.invokeAndWait(() -> AnotherConcurrentGUI.this.stop.setEnabled(false));
                             SwingUtilities.invokeAndWait(() -> AnotherConcurrentGUI.this.up.setEnabled(false));
                             SwingUtilities.invokeAndWait(() -> AnotherConcurrentGUI.this.down.setEnabled(false));
                         } catch (final InvocationTargetException | InterruptedException e) {
-                            e.printStackTrace();
+                            e.printStackTrace();    // NOPMD: allowed in exercise.
                         }
                     });
 
@@ -85,7 +88,7 @@ public final class AnotherConcurrentGUI extends JFrame {
                     countOperation();
                     Thread.sleep(100);
                 } catch (final InvocationTargetException | InterruptedException e) {
-                    e.printStackTrace();
+                    e.printStackTrace();    // NOPMD: allowed in exercise.
                 }
             }
         }

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * A class implementing a sum for a matrix.
+ */
 public final class MultiThreadedSumMatrix implements SumMatrix {
 
     private final int threadNumber;
@@ -16,10 +19,10 @@ public final class MultiThreadedSumMatrix implements SumMatrix {
     }
 
     @Override
-    public double sum(double[][] matrix) {
+    public double sum(final double[][] matrix) {
         final var list = matrixToList(matrix);
         final int size = list.size() % threadNumber + list.size() / threadNumber;
-        
+
         // Creating a list of workers.
         final List<Worker> workers = new ArrayList<>();
         for (int start = 0; start < list.size(); start += size) {
@@ -38,13 +41,13 @@ public final class MultiThreadedSumMatrix implements SumMatrix {
                 worker.join();
                 sum += worker.getResult();
             } catch (InterruptedException e) {
-                throw new IllegalStateException();
+                throw new IllegalStateException();  // NOPMD: allowed in exercise.
             }
         }
         return sum;
     }
 
-    private static class Worker extends Thread {
+    private static final class Worker extends Thread {
 
         // A Map containing the elements to sum.
         private final List<Double> elementsList;
@@ -66,7 +69,7 @@ public final class MultiThreadedSumMatrix implements SumMatrix {
 
         @Override
         public void run() {
-            System.out.println("Working FROM: " + this.start + " TO: " + (this.start + this.elementNumber - 1));
+            System.out.println("Working FROM: " + this.start + " TO: " + (this.start + this.elementNumber - 1));    // NOPMD
             for (int i = this.start; i < elementsList.size() && i < start + elementNumber; i++) {
                 this.result += this.elementsList.get(i);
             }
@@ -84,12 +87,12 @@ public final class MultiThreadedSumMatrix implements SumMatrix {
     // Converts a 2D array of type double into a plain list.
     private List<Double> matrixToList(final double[][] matrix) {
         final List<Double> result = new ArrayList<>();
-        for (int i = 0; i < matrix.length; i++) {
+        for (int i = 0; i < matrix.length; i++) {   // NOPMD: not using a foreach to keep track of matrix indexes.
             for (int j = 0; j < matrix[i].length; j++) {
                 result.add(matrix[i][j]);
             }
         }
         return Collections.unmodifiableList(result);
     }
-    
+
 }

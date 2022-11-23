@@ -9,6 +9,7 @@ import java.util.List;
  */
 public final class MultiThreadedListSumClassic implements SumList {
 
+    // CPD-OFF
     private final int nthread;
 
     /**
@@ -45,7 +46,7 @@ public final class MultiThreadedListSumClassic implements SumList {
 
         @Override
         public void run() {
-            System.out.println("Working from position " + startpos + " to position " + (startpos + nelem - 1));
+            System.out.println("Working from position " + startpos + " to position " + (startpos + nelem - 1));     // NOPMD
             for (int i = startpos; i < list.size() && i < startpos + nelem; i++) {
                 this.res += this.list.get(i);
             }
@@ -64,6 +65,7 @@ public final class MultiThreadedListSumClassic implements SumList {
 
     @Override
     public long sum(final List<Integer> list) {
+        // CPD-OFF
         final int size = list.size() % nthread + list.size() / nthread;
         /*
          * Build a list of workers
